@@ -1,0 +1,10 @@
+HTTP/1.1 404 Not Found
+Content-Length :369
+Content-type: text/html; charset=utf-8
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<h2 style="color:#ff0000; font-size:200%; font-family: 'UD デジタル 教科書体 NK-R';">404 Not Found</h2>
+<p style="color:#000000; font-size:125%; font-family: 'UD デジタル 教科書体 NK-R';">routing.xmlのrouteタグのpath属性に未登録のパスにアクセスされました。</p>

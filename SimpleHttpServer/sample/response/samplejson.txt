@@ -1,0 +1,321 @@
+HTTP/1.1 200 OK
+Content-Length:10194
+Content-Type: application/json; charset=utf-8
+
+[
+  {
+    "_id": "5e476fea9e93234e35ce1929",
+    "index": 0,
+    "guid": "fa8322f7-d755-4024-a11a-78690a90d222",
+    "isActive": true,
+    "balance": "$2,132.85",
+    "picture": "http://placehold.it/32x32",
+    "age": 26,
+    "eyeColor": "blue",
+    "name": "Hurley Stout",
+    "gender": "male",
+    "company": "BALUBA",
+    "email": "hurleystout@baluba.com",
+    "phone": "+1 (902) 423-3049",
+    "address": "578 Whitwell Place, Dorneyville, Arkansas, 7911",
+    "about": "Aliquip duis ea eiusmod incididunt aliquip amet tempor minim ipsum non ex. Sit enim velit Lorem reprehenderit ex in irure aute sunt sint commodo. Fugiat dolor magna sit elit laboris fugiat non mollit officia velit laborum quis.\r\n",
+    "registered": "2020-01-30T08:46:50 -09:00",
+    "latitude": -66.447423,
+    "longitude": 67.02892,
+    "tags": [
+      "deserunt",
+      "exercitation",
+      "qui",
+      "aliqua",
+      "adipisicing",
+      "consequat",
+      "nostrud"
+    ],
+    "friends": [
+      {
+        "id": 0,
+        "name": "Ollie Reilly"
+      },
+      {
+        "id": 1,
+        "name": "Lester Pearson"
+      },
+      {
+        "id": 2,
+        "name": "Reed Maxwell"
+      }
+    ],
+    "greeting": "Hello, Hurley Stout! You have 5 unread messages.",
+    "favoriteFruit": "banana"
+  },
+  {
+    "_id": "5e476feaa439a04b27198f27",
+    "index": 1,
+    "guid": "5b284054-154c-4aa9-a2f3-679f955cb2a3",
+    "isActive": true,
+    "balance": "$1,991.79",
+    "picture": "http://placehold.it/32x32",
+    "age": 36,
+    "eyeColor": "brown",
+    "name": "Good Castaneda",
+    "gender": "male",
+    "company": "ZEDALIS",
+    "email": "goodcastaneda@zedalis.com",
+    "phone": "+1 (984) 509-3302",
+    "address": "197 Boerum Place, Madaket, Pennsylvania, 3794",
+    "about": "Sint culpa cupidatat veniam non do consequat culpa ex dolore. Deserunt in incididunt consectetur irure ut aute ea pariatur culpa. Veniam deserunt in ad irure. Ipsum enim excepteur consequat irure excepteur incididunt ipsum magna laboris enim. Qui irure est do laborum laboris eiusmod commodo consequat culpa aliqua excepteur proident esse eiusmod. Cillum mollit laborum irure eiusmod proident elit commodo laboris incididunt in consequat qui commodo.\r\n",
+    "registered": "2015-04-28T01:01:38 -09:00",
+    "latitude": -71.935954,
+    "longitude": 96.89509,
+    "tags": [
+      "anim",
+      "Lorem",
+      "quis",
+      "cupidatat",
+      "irure",
+      "commodo",
+      "reprehenderit"
+    ],
+    "friends": [
+      {
+        "id": 0,
+        "name": "Rosario Ingram"
+      },
+      {
+        "id": 1,
+        "name": "Mcclain Hamilton"
+      },
+      {
+        "id": 2,
+        "name": "Herman Cohen"
+      }
+    ],
+    "greeting": "Hello, Good Castaneda! You have 8 unread messages.",
+    "favoriteFruit": "strawberry"
+  },
+  {
+    "_id": "5e476feaca2155a3bdea338a",
+    "index": 2,
+    "guid": "bf83808c-e813-48e8-bf5e-f034d764432a",
+    "isActive": true,
+    "balance": "$1,134.10",
+    "picture": "http://placehold.it/32x32",
+    "age": 32,
+    "eyeColor": "blue",
+    "name": "Morris Coleman",
+    "gender": "male",
+    "company": "SEALOUD",
+    "email": "morriscoleman@sealoud.com",
+    "phone": "+1 (997) 557-2934",
+    "address": "835 Macdougal Street, Dowling, Illinois, 5433",
+    "about": "Id nostrud magna cillum officia. Mollit esse ipsum officia laboris eu. Esse adipisicing aliquip pariatur ea deserunt magna sit duis velit magna anim pariatur tempor ullamco. Consequat aliqua duis exercitation ut mollit laboris. Magna ex cillum culpa ullamco pariatur sint exercitation excepteur sint labore nisi. Consequat nisi fugiat anim cupidatat dolor adipisicing ex ea est aute voluptate irure sunt mollit. Voluptate fugiat cupidatat in ullamco elit esse laboris.\r\n",
+    "registered": "2016-02-18T11:14:20 -09:00",
+    "latitude": -48.096194,
+    "longitude": 144.179784,
+    "tags": [
+      "occaecat",
+      "eiusmod",
+      "consequat",
+      "dolor",
+      "duis",
+      "amet",
+      "consequat"
+    ],
+    "friends": [
+      {
+        "id": 0,
+        "name": "Stanton Cole"
+      },
+      {
+        "id": 1,
+        "name": "Ava Bates"
+      },
+      {
+        "id": 2,
+        "name": "Mattie Guerra"
+      }
+    ],
+    "greeting": "Hello, Morris Coleman! You have 1 unread messages.",
+    "favoriteFruit": "strawberry"
+  },
+  {
+    "_id": "5e476fea91b6b246c10d870a",
+    "index": 3,
+    "guid": "8cf7772a-faf4-40fd-ba95-81ef2253bb5d",
+    "isActive": true,
+    "balance": "$2,456.60",
+    "picture": "http://placehold.it/32x32",
+    "age": 37,
+    "eyeColor": "green",
+    "name": "Virgie Lancaster",
+    "gender": "female",
+    "company": "ASSURITY",
+    "email": "virgielancaster@assurity.com",
+    "phone": "+1 (840) 519-2441",
+    "address": "177 Foster Avenue, Urbana, Northern Mariana Islands, 3898",
+    "about": "Eiusmod non in veniam eu nostrud enim voluptate ex incididunt. Deserunt minim veniam labore consequat culpa. Nulla ipsum qui consequat cupidatat do duis irure elit aliqua dolore fugiat et velit. Proident ut ullamco ut deserunt aliquip pariatur sunt nostrud. Mollit reprehenderit sint sit quis mollit dolor ea duis excepteur aute consectetur dolore.\r\n",
+    "registered": "2016-05-04T07:47:26 -09:00",
+    "latitude": 4.01326,
+    "longitude": 43.568882,
+    "tags": [
+      "laboris",
+      "mollit",
+      "ad",
+      "consectetur",
+      "eu",
+      "sint",
+      "consectetur"
+    ],
+    "friends": [
+      {
+        "id": 0,
+        "name": "Deborah Mckinney"
+      },
+      {
+        "id": 1,
+        "name": "Sherri Hayes"
+      },
+      {
+        "id": 2,
+        "name": "Ruthie Carney"
+      }
+    ],
+    "greeting": "Hello, Virgie Lancaster! You have 8 unread messages.",
+    "favoriteFruit": "apple"
+  },
+  {
+    "_id": "5e476feaaf8be20c03097dd5",
+    "index": 4,
+    "guid": "24509f26-9372-4dd2-9fda-6136ced2ea5f",
+    "isActive": true,
+    "balance": "$1,490.68",
+    "picture": "http://placehold.it/32x32",
+    "age": 31,
+    "eyeColor": "blue",
+    "name": "Colette Wall",
+    "gender": "female",
+    "company": "COMTEST",
+    "email": "colettewall@comtest.com",
+    "phone": "+1 (964) 561-2093",
+    "address": "192 Hope Street, Fidelis, Alabama, 4988",
+    "about": "Nisi ea cupidatat ex est occaecat et enim eiusmod anim quis consequat. Irure occaecat reprehenderit consectetur Lorem qui occaecat est ex ad. Culpa sit sit id Lorem cupidatat sint. Anim reprehenderit aute fugiat velit veniam dolore qui consequat quis dolor cupidatat deserunt esse veniam. Proident Lorem consectetur et sint Lorem anim amet et. Culpa tempor ullamco reprehenderit amet eiusmod.\r\n",
+    "registered": "2016-05-11T04:30:23 -09:00",
+    "latitude": -29.505574,
+    "longitude": 141.223998,
+    "tags": [
+      "ut",
+      "est",
+      "amet",
+      "do",
+      "voluptate",
+      "in",
+      "ad"
+    ],
+    "friends": [
+      {
+        "id": 0,
+        "name": "Denise Houston"
+      },
+      {
+        "id": 1,
+        "name": "Workman Nielsen"
+      },
+      {
+        "id": 2,
+        "name": "Burks Waters"
+      }
+    ],
+    "greeting": "Hello, Colette Wall! You have 5 unread messages.",
+    "favoriteFruit": "banana"
+  },
+  {
+    "_id": "5e476fea7d36b1f7bec15b1d",
+    "index": 5,
+    "guid": "af0c1411-a898-4de6-ac78-4c250875a32e",
+    "isActive": false,
+    "balance": "$3,960.57",
+    "picture": "http://placehold.it/32x32",
+    "age": 32,
+    "eyeColor": "brown",
+    "name": "Sheila Kirkland",
+    "gender": "female",
+    "company": "DOGNOSIS",
+    "email": "sheilakirkland@dognosis.com",
+    "phone": "+1 (898) 556-2342",
+    "address": "547 Noble Street, Mammoth, Nebraska, 537",
+    "about": "Culpa non dolore esse nulla ut irure dolor cillum adipisicing. Qui qui sunt aute minim. Duis incididunt cillum Lorem dolor excepteur voluptate anim do elit adipisicing dolor. Ad aliquip nostrud velit est laborum ut exercitation ad. Id laborum tempor occaecat magna deserunt minim enim qui. Aliquip incididunt est pariatur officia ipsum non culpa reprehenderit enim excepteur. Adipisicing labore dolore pariatur minim magna proident labore ad.\r\n",
+    "registered": "2015-10-30T01:05:24 -09:00",
+    "latitude": 48.515567,
+    "longitude": 126.547768,
+    "tags": [
+      "esse",
+      "ea",
+      "consequat",
+      "ea",
+      "laboris",
+      "enim",
+      "dolore"
+    ],
+    "friends": [
+      {
+        "id": 0,
+        "name": "Pugh Abbott"
+      },
+      {
+        "id": 1,
+        "name": "Cardenas Carr"
+      },
+      {
+        "id": 2,
+        "name": "Tanner Potter"
+      }
+    ],
+    "greeting": "Hello, Sheila Kirkland! You have 1 unread messages.",
+    "favoriteFruit": "strawberry"
+  },
+  {
+    "_id": "5e476feab57545478716e8bc",
+    "index": 6,
+    "guid": "fea0042e-8d87-4a23-8cbf-f300e49df3ba",
+    "isActive": false,
+    "balance": "$3,720.33",
+    "picture": "http://placehold.it/32x32",
+    "age": 28,
+    "eyeColor": "green",
+    "name": "Staci Wilkinson",
+    "gender": "female",
+    "company": "KAGGLE",
+    "email": "staciwilkinson@kaggle.com",
+    "phone": "+1 (909) 512-2196",
+    "address": "945 Dunne Place, Benson, Iowa, 2976",
+    "about": "Enim do proident exercitation exercitation eu id consequat tempor. Dolore enim anim nulla culpa cupidatat eu esse. Consequat tempor sint cillum consectetur id tempor do sunt ea magna et culpa. Ad est do excepteur dolore laborum.\r\n",
+    "registered": "2014-03-18T07:15:24 -09:00",
+    "latitude": -76.190119,
+    "longitude": -52.862217,
+    "tags": [
+      "deserunt",
+      "velit",
+      "in",
+      "magna",
+      "cillum",
+      "velit",
+      "veniam"
+    ],
+    "friends": [
+      {
+        "id": 0,
+        "name": "Janine Delaney"
+      },
+      {
+        "id": 1,
+        "name": "Kline Terrell"
+      },
+      {
+        "id": 2,
+        "name": "Carr Kramer"
+      }
+    ],
+    "greeting": "Hello, Staci Wilkinson! You have 4 unread messages.",
+    "favoriteFruit": "apple"
+  }
+]

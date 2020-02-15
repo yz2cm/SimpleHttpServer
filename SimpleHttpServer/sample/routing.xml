@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routingMap>
+    <route path="/">response\index.txt</route>
+    <route path="/index.htm">response\index.txt</route>
+    <route path="/index.html">response\index.txt</route>
+    <route path="/hello">response\hello.txt</route>
+    <route path="/hello/">response\hello.txt</route>
+    <route path="/samplejson">response\samplejson.txt</route>
+    <route path="/samplejson/">response\samplejson.txt</route>
+    <route path="*">response\404.txt</route>
+</routingMap>
