@@ -8,120 +8,53 @@ using System.Net;
 using System.Net.Sockets;
 using System.Diagnostics;
 using System.Xml.Linq;
+using SimpleHttpServer.Domain;
 
 namespace SimpleHttpServer
 {
     class Program
     {
-        static bool tryParseArguments(string[] args)
+        static void Main(string[] args)
         {
-            if (args.Length != 2) return false;
-            if (args[0] != "--port") return false;
-            Int32 port;
-            if (!int.TryParse(args[1], out port)) return false;
-
-            return true;
-        }
-        internal class ProcessContext
-        {
-            internal ProcessContext(string[] args)
             {
-                Int32 port;
-                int.TryParse(args[1], out port);
-                this.PortNo = port;
-            }
-            internal Int32 PortNo { get; }
-            internal string RoutingFileName => Path.Combine(this.CurrentDirectoryName, "routing.xml");
-            internal string CurrentDirectoryName => AppDomain.CurrentDomain.BaseDirectory;
-        }
-        static void printUsage(string progName)
-        {
-            Console.WriteLine($"{progName} --port <port>");
-        }
-        static void startHttpServer(ProcessContext context, RoutingTable routingTable)
-        {
-            var listener = new TcpListener(IPAddress.Parse("127.0.0.1"), context.PortNo);
-            listener.Start();
-
-            while (true)
-            {
-                Console.WriteLine($"listening ... (port {context.PortNo})");
-                using (var client = listener.AcceptTcpClient())
-                using (var stream = client.GetStream())
+                (bool ok, string message) = ProcessArgument.TestValidation(args);
+                if (!ok)
                 {
-                    Console.WriteLine();
-                    Console.WriteLine($"**** Accept from {client.Client.RemoteEndPoint} ***");
-                    Console.WriteLine();
+                    Console.WriteLine(message);
+                    Console.WriteLine(new Usage());
 
-                    string httpRequest = string.Empty;
-
-                    while (client.Connected && stream.CanRead)
-                    {
-                        byte[] bufferRead = new Byte[4096];
-                        int readSize = stream.Read(bufferRead, 0, bufferRead.Length);
-
-                        if(readSize == 0)
-                        {
-                            break;
-                        }
-
-                        httpRequest += Encoding.UTF8.GetString(bufferRead, 0, readSize);
-
-                        if(readSize < bufferRead.Length)
-                        {
-                            break;
-                        }
-                    }
-
-                    if(httpRequest.Length == 0)
-                    {
-                        continue;
-                    }
-
-                    Console.WriteLine(">>>> Http Request :");
-                    Console.WriteLine(httpRequest);
-                    Console.WriteLine();
-
-                    var httpStartLine = httpRequest.Split(new string[] { "\r\n" }, StringSplitOptions.None)[0];
-                    var routingPath = httpStartLine.Split(' ')[1];
-                    var httpResponse = routingTable.GetReponse(routingPath);
-                    Console.WriteLine("<<<< Http Response :");
-                    Console.WriteLine(httpResponse);
-                    Console.WriteLine();
-
-                    byte[] bytes = routingTable.GetResponseBytes(routingPath);
-                    stream.Write(bytes, 0, bytes.Length);
+                    return;
                 }
             }
 
-        }
-        static void Main(string[] args)
-        {
-            var progName = Process.GetCurrentProcess().MainModule.FileName;
-
-            if (! tryParseArguments(args))
-            {
-                printUsage(progName);
-                return;
-            }
-
             var context = new ProcessContext(args);
-
             if (! File.Exists(context.RoutingFileName))
             {
-                Console.WriteLine($"error : Routing file is not found. ({context.RoutingFileName})");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("\r\n[Error] routing.xml not found.");
+                Console.ResetColor();
+                Console.WriteLine("(" + context.RoutingFileName + ")");
                 return;
             }
 
-            var routingTable = new RoutingTable(context.RoutingFileName);
+            var routingFile = new RoutingFile(context.RoutingFileName);
 
-            foreach(var x in routingTable.GetNonExistResponseFiles())
             {
-                Console.WriteLine($"error : Response file is not found. ({x})");
-                return;
+                (bool ok, string message) = routingFile.TestValidation();
+                if (!ok)
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("\r\n[Error] Routing file validation error.");
+                    Console.ResetColor();
+                    Console.WriteLine(message);
+                    return;
+                }
             }
+            var routingTable = new RoutingTable(routingFile);
 
-            startHttpServer(context, routingTable);
+            var httpServer = new HttpServer(context.PortNo, routingTable);
+            httpServer.Start();
+
         }
     }
 }

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<routingMap>
-    <route path="/">response\index.txt</route>
-    <route path="/index.htm">response\index.txt</route>
-    <route path="/index.html">response\index.txt</route>
-    <route path="/hello">response\hello.txt</route>
-    <route path="/hello/">response\hello.txt</route>
-    <route path="/samplejson">response\samplejson.txt</route>
-    <route path="/samplejson/">response\samplejson.txt</route>
-    <route path="*">response\404.txt</route>
-</routingMap>
+<RoutingMap>
+    <RoutePrefix>api/v1</RoutePrefix>
+    <Route Path="">response\index.txt</Route>
+    <Route Path="index.htm">response\index.txt</Route>
+    <Route Path="index.html">response\index.txt</Route>
+    <Route Path="hello">response\hello.txt</Route>
+    <Route Path="hello/">response\hello.txt</Route>
+    <Route Path="samplejson">response\samplejson.txt</Route>
+    <Route Path="samplejson/">response\samplejson.txt</Route>
+    <Route Path="*">response\404.txt</Route>
+</RoutingMap>
