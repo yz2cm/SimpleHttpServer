@@ -8,10 +8,19 @@ namespace SimpleHttpServer.Domain
 {
     class RouteFullPath
     {
-        internal RouteFullPath(string fullPath)
+        public bool Equals(RouteFullPath fullPath)
+        {
+            if(this == fullPath)
+            {
+                return true;
+            }
+
+            return this.ToString() == fullPath.ToString();
+        }
+        internal RouteFullPath(RoutePath path)
         {
             this.prefix = new RoutePrefix(string.Empty);
-            this.path = new RoutePath(fullPath);
+            this.path = path;
         }
         internal RouteFullPath(RoutePrefix prefix, RoutePath path)
         {
@@ -46,7 +55,7 @@ namespace SimpleHttpServer.Domain
 
             return fullPath;
         }
-        internal static RouteFullPath Default(RoutePrefix prefix) => new RouteFullPath(prefix, new RoutePath("*"));
+        internal static RouteFullPath Default() => new RouteFullPath(new RoutePath("*"));
         private RoutePrefix prefix;
         private RoutePath path;
     }

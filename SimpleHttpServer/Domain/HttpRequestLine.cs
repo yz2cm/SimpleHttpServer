@@ -3,40 +3,46 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SimpleHttpServer.Dto;
 
 namespace SimpleHttpServer.Domain
 {
     class HttpRequestLine
     {
-        internal HttpRequestLine(string requestLine)
+        internal HttpRequestLine(HttpRequestMessageDto.HttpRequestLineDto requestLineDto)
         {
-            this.requestLine = requestLine;
-
-            var x = this.requestLine.Split(' ');
-            this.HttpMethod = x[0];
-            {
-                var y = x[1].Split('?');
-                this.RequestUri = y[0];
-                if(y.Length >= 2)
-                {
-                    this.QueryString = y[1];
-                }
-                else
-                {
-                    this.QueryString = string.Empty;
-                }
-            }
-            this.RequestUri = x[1];
-            this.HttpVersion = x[2];
+            this.HttpMethod = requestLineDto.HttpMethod;
+            this.RequestedUri = requestLineDto.RequestedPath.Path;
+            this.HttpVersion = requestLineDto.HttpVersion;
+            this.QueryKeyValuePairs = new QueryKeyValueCollection(requestLineDto.RequestedPath.QueryKeyValueCollection);
         }
         internal string HttpMethod { get; }
-        internal string RequestUri { get; }
-        internal string QueryString { get; }
+        internal string RequestedUri { get; }
+        internal QueryKeyValueCollection QueryKeyValuePairs { get; }
         internal string HttpVersion { get; }
-        private string requestLine;
         public override string ToString()
         {
-            return this.requestLine;
+            string requestLine = this.HttpMethod + " " + this.RequestedUri + " " + this.HttpVersion;
+
+            return requestLine;
+        }
+        internal class QueryKeyValueCollection
+        {
+            internal QueryKeyValueCollection(QueryKeyValuePairCollectionDto kvCollection)
+            {
+                this.QueryKeyValues = kvCollection?.QueryKeyValuePairs.Select(x => new QueryKeyValue(x.Key, x.Value)).ToList();
+            }
+            internal IReadOnlyList<QueryKeyValue> QueryKeyValues { get; }
+        }
+        internal class QueryKeyValue
+        {
+            internal QueryKeyValue(string key, string value)
+            {
+                this.key = key;
+                this.value = value;
+            }
+            private string key;
+            private string value;
         }
     }
 }

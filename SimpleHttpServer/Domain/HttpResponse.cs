@@ -4,54 +4,43 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using SimpleHttpServer.Dto;
 
 namespace SimpleHttpServer.Domain
 {
     class HttpResponse
     {
-        internal HttpResponse(HttpResponseFile responseFile)
+        internal HttpResponse(HttpResponseFileDto responseFileDto)
         {
-            string serializedData = responseFile.GetFileContent();
-            string[] headerAndBody = serializedData.Split(new string[] { "\r\n\r\n" }, StringSplitOptions.None);
-            string headerSection = headerAndBody[0];
-            string[] headerLines = headerSection.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-
-            this.HttpStatusLine = new HttpStatusLine(headerLines[0]);
-
-            IReadOnlyList<string> headerFieldLines = headerLines.Skip(1).ToList();
-            this.HttpHeader = new HttpHeader(headerFieldLines);
-
-            if(headerAndBody.Length >= 2)
-            {
-                this.HttpMessageBody = new HttpMessageBody(headerAndBody[1]);
-            }
-            else
-            {
-                this.HttpMessageBody = new HttpMessageBody(string.Empty);
-            }
-
-            if (this.HttpHeader.ContentLengthValueIsBlank())
-            {
-                this.HttpHeader.SetContentLength(this.HttpMessageBody.ByteLength);
-            }
-
+            this.responseFileDto = responseFileDto;
+            this.HttpStatusLine = new HttpStatusLine(this.responseFileDto.HttpStatusLine);
+            this.HttpHeaderFieldEntries = new HttpHeaderFieldEntryCollection(this.responseFileDto.HttpHeaderFieldEntries);
+            this.HttpMessageBody = new HttpMessageBody(this.responseFileDto.HttpMessageBody);
         }
-        internal HttpStatusLine HttpStatusLine { get; }
-        internal HttpHeader HttpHeader { get; }
-        internal HttpMessageBody HttpMessageBody { get; }
+        private HttpResponseFileDto responseFileDto;
+        internal HttpStatusLine HttpStatusLine;
+        internal HttpHeaderFieldEntryCollection HttpHeaderFieldEntries;
+        internal HttpMessageBody HttpMessageBody;
         internal byte[] ToBytes()
         {
             return Encoding.UTF8.GetBytes(this.ToString());
         }
         public override string ToString()
         {
-            string serializedData = this.HttpStatusLine.ToString() + "\r\n" + this.HttpHeader.ToString() + "\r\n\r\n";
-            if (this.HttpMessageBody.ByteLength > 0)
+            var httpHeaders = new HttpHeaderFieldEntryCollection(this.responseFileDto.HttpHeaderFieldEntries);
+
+            if (httpHeaders.ContentLengthValueIsBlank())
             {
-                serializedData += this.HttpMessageBody.ToString();
+                httpHeaders.SetContentLength(this.HttpMessageBody.ByteLength);
             }
 
-            return serializedData;
+            string serialized = this.responseFileDto.HttpStatusLine + "\r\n" + string.Join("\r\n", httpHeaders) + "\r\n\r\n";
+            if (this.HttpMessageBody.ByteLength > 0)
+            {
+                serialized += this.HttpMessageBody.ToString();
+            }
+
+            return serialized;
         }
     }
 }

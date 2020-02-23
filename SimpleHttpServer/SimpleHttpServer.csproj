@@ -43,24 +43,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\ConsoleLogger.cs" />
+    <Compile Include="Application\LoggerBase.cs" />
+    <Compile Include="Application\LogTimeStamp.cs" />
+    <Compile Include="Domain\FilePath.cs" />
     <Compile Include="Domain\HttpRequest.cs" />
-    <Compile Include="Domain\HttpHeader.cs" />
-    <Compile Include="Domain\HttpHeaderEntry.cs" />
+    <Compile Include="Domain\HttpHeaderFieldEntryCollection.cs" />
+    <Compile Include="Domain\HttpHeaderFieldEntry.cs" />
     <Compile Include="Domain\HttpResponse.cs" />
-    <Compile Include="Domain\HttpResponseFile.cs" />
+    <Compile Include="Dto\HttpHeaderFieldEntryDto.cs" />
+    <Compile Include="Dto\HttpRequestMessageDto.cs" />
+    <Compile Include="Dto\HttpResponseFileDto.cs" />
     <Compile Include="Domain\HttpRequestLine.cs" />
     <Compile Include="Domain\HttpStatusLine.cs" />
     <Compile Include="Domain\ProcessContext.cs" />
-    <Compile Include="Domain\ProcessArgument.cs" />
+    <Compile Include="Application\ProcessArgument.cs" />
     <Compile Include="Domain\RouteFullPath.cs" />
     <Compile Include="Domain\RoutingEntry.cs" />
-    <Compile Include="Domain\RoutingFile.cs" />
     <Compile Include="Domain\RoutePath.cs" />
     <Compile Include="Domain\RoutePrefix.cs" />
     <Compile Include="Domain\RoutingTable.cs" />
     <Compile Include="Domain\Usage.cs" />
     <Compile Include="Domain\HttpServer.cs" />
     <Compile Include="Domain\HttpMessageBody.cs" />
+    <Compile Include="Dto\QueryKeyValuePairCollectionDto.cs" />
+    <Compile Include="Dto\QueryKeyValuePairDto.cs" />
+    <Compile Include="Dto\RoutingFileDto.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

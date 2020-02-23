@@ -14,9 +14,10 @@ namespace SimpleHttpServer.Domain
             Int32 port;
             int.TryParse(args[1], out port);
             this.PortNo = port;
+            this.RoutingFileName = new FilePath(AppDomain.CurrentDomain.BaseDirectory, "routing.xml");
         }
         internal Int32 PortNo { get; }
-        internal string RoutingFileName => Path.Combine(this.CurrentDirectoryName, "routing.xml");
+        internal FilePath RoutingFileName { get; }
         internal string CurrentDirectoryName => AppDomain.CurrentDomain.BaseDirectory;
     }
 }

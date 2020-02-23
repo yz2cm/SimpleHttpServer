@@ -8,7 +8,9 @@ using System.Net;
 using System.Net.Sockets;
 using System.Diagnostics;
 using System.Xml.Linq;
+using SimpleHttpServer.Application;
 using SimpleHttpServer.Domain;
+using SimpleHttpServer.Dto;
 
 namespace SimpleHttpServer
 {
@@ -16,11 +18,12 @@ namespace SimpleHttpServer
     {
         static void Main(string[] args)
         {
+            LoggerBase logger = new ConsoleLogger();
             {
-                (bool ok, string message) = ProcessArgument.TestValidation(args);
-                if (!ok)
+                var result = ProcessArgument.Validate(args);
+                if (!result.ok)
                 {
-                    Console.WriteLine(message);
+                    logger.WriteInformation(result.message);
                     Console.WriteLine(new Usage());
 
                     return;
@@ -28,31 +31,16 @@ namespace SimpleHttpServer
             }
 
             var context = new ProcessContext(args);
-            if (! File.Exists(context.RoutingFileName))
+            if (! context.RoutingFileName.Exists())
             {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("\r\n[Error] routing.xml not found.");
-                Console.ResetColor();
-                Console.WriteLine("(" + context.RoutingFileName + ")");
+                logger.WriteError($"{context.RoutingFileName.NameOnly} not found.\r\n({context.RoutingFileName})");
                 return;
             }
 
-            var routingFile = new RoutingFile(context.RoutingFileName);
-
-            {
-                (bool ok, string message) = routingFile.TestValidation();
-                if (!ok)
-                {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine("\r\n[Error] Routing file validation error.");
-                    Console.ResetColor();
-                    Console.WriteLine(message);
-                    return;
-                }
-            }
+            var routingFile = RoutingFileDto.Load(context.RoutingFileName);
             var routingTable = new RoutingTable(routingFile);
 
-            var httpServer = new HttpServer(context.PortNo, routingTable);
+            var httpServer = new HttpServer(context.PortNo, routingTable, logger);
             httpServer.Start();
 
         }

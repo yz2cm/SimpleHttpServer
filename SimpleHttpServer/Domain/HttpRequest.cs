@@ -3,33 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SimpleHttpServer.Dto;
 
 namespace SimpleHttpServer.Domain
 {
     class HttpRequest
     {
-        internal HttpRequest(string httpRequest)
+        internal HttpRequest(HttpRequestMessageDto httpRequestDto)
         {
-            var headerAndBody = httpRequest.Split(new string[] { "\r\n\r\n" }, StringSplitOptions.None);
-            string header = headerAndBody[0];
-            string[] headerLines = header.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-            string requestLine = headerLines[0];
-            string headerSection = headerLines[1];
-
-            this.HttpRequestLine = new HttpRequestLine(requestLine);
-            this.HttpHeader = new HttpHeader(headerSection);
-
-            if(headerAndBody.Length >= 2)
-            {
-                this.HttpMessageBody = new HttpMessageBody(headerAndBody[1]);
-            }
-            else
-            {
-                this.HttpMessageBody = new HttpMessageBody(string.Empty);
-            }
+            this.HttpRequestLine = new HttpRequestLine(httpRequestDto.HttpRequestLine);
+            this.HttpHeader = new HttpHeaderFieldEntryCollection(httpRequestDto.HttpHeaderFields);
+            this.HttpMessageBody = new HttpMessageBody(httpRequestDto.HttpMessageBody);
         }
         internal HttpRequestLine HttpRequestLine { get; }
-        internal HttpHeader HttpHeader { get; }
+        internal HttpHeaderFieldEntryCollection HttpHeader { get; }
         internal HttpMessageBody HttpMessageBody { get; }
     }
 }

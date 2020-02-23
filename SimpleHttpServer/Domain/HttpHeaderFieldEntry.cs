@@ -3,33 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SimpleHttpServer.Dto;
 
 namespace SimpleHttpServer.Domain
 {
-    class HttpHeaderEntry
+    class HttpHeaderFieldEntry
     {
-        internal HttpHeaderEntry(string headerLine)
+        internal HttpHeaderFieldEntry(string key, string value)
         {
-            var kv = headerLine.Split(':');
-            this.FieldName = kv[0].Trim();
-            if(kv.Length >= 2)
-            {
-                this.FieldValue = kv[1].Trim();
-            }
-            else
-            {
-                this.FieldValue = string.Empty;
-            }
+            this.FieldName = key;
+            this.FieldValue = value;
         }
-        internal HttpHeaderEntry(string fieldName, string fieldValue)
+        internal HttpHeaderFieldEntry(HttpHeaderFieldEntryDto dto)
         {
-            this.FieldName = fieldName;
-            this.FieldValue = fieldValue;
+            this.FieldName = dto.HederFieldName;
+            this.FieldValue = dto.HeaderFieldValue;
         }
         private const string ContentLengthFieldName = "Content-Length";
-        internal static HttpHeaderEntry BuildContentLength(int length)
+        internal static HttpHeaderFieldEntry BuildContentLength(int length)
         {
-            return new HttpHeaderEntry(ContentLengthFieldName, length.ToString());
+            return new HttpHeaderFieldEntry(ContentLengthFieldName, length.ToString());
         }
         internal bool IsContentLength()
         {
@@ -43,7 +36,7 @@ namespace SimpleHttpServer.Domain
             }
             else
             {
-                return this.FieldName + " : " + this.FieldValue;
+                return this.FieldName + ": " + this.FieldValue;
             }
         }
         internal string FieldName { get; }

@@ -5,39 +5,34 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.IO;
+using SimpleHttpServer.Dto;
 
 namespace SimpleHttpServer.Domain
 {
     class RoutingTable
     {
-        internal RoutingTable(RoutingFile routingFile)
+        internal RoutingTable(RoutingFileDto routingFileDto)
         {
-            var map = routingFile.GetRoutingMap();
-            this.routePrefix = map.RoutePrefix;
-
-            foreach(var route in map.Routes)
-            {
-                var routeFullPath = new RouteFullPath(map.RoutePrefix, new RoutePath(route.Path));
-                var httpResponse = new HttpResponse(new HttpResponseFile(route.ResponseFileName));
-
-                this.routeTable.Add(new RoutingEntry(routeFullPath, httpResponse));
-            }
+            this.routingFileDto = routingFileDto;
         }
-        internal HttpResponse GetHtpResponse(RouteFullPath path)
+        internal HttpResponse Find(RouteFullPath fullPath)
         {
-            var result = this.routeTable.FirstOrDefault(entry => entry.Path.ToString() == path.ToString());
+            var table = routingFileDto.Routes;
+            var prefix = new RoutePrefix(routingFileDto.RoutePrefix);
+
+            var result = table.FirstOrDefault(entry => new RouteFullPath(prefix, new RoutePath(entry.Path)).ToString() == fullPath.ToString());
             if (result == null)
             {
-                result = this.routeTable.FirstOrDefault(entry => entry.Path.ToString() == RouteFullPath.Default(this.routePrefix).ToString());
+                result = table.FirstOrDefault(entry => new RouteFullPath(new RoutePath(entry.Path)).Equals(RouteFullPath.Default()));
                 if (result == null)
                 {
-                    throw new KeyNotFoundException(path.ToString());
+                    throw new KeyNotFoundException(fullPath.ToString());
                 }
             }
 
-            return result.Response;
+            var httpResponseFileDto =  HttpResponseFileDto.Load(result.HttpResponseFileName);
+            return new HttpResponse(httpResponseFileDto);
         }
-        private RoutePrefix routePrefix;
-        private List<RoutingEntry> routeTable = new List<RoutingEntry>();
+        private RoutingFileDto routingFileDto;
     }
 }

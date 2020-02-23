@@ -6,15 +6,18 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
 using System.Diagnostics;
+using SimpleHttpServer.Domain;
+using SimpleHttpServer.Dto;
 
-namespace SimpleHttpServer.Domain
+namespace SimpleHttpServer.Application
 {
     class HttpServer
     {
-        internal HttpServer(int port, RoutingTable routingTable)
+        internal HttpServer(int port, RoutingTable routingTable, LoggerBase logger)
         {
             this.port = port;
             this.routingTable = routingTable;
+            this.logger = logger;
         }
         public void Shutdown()
         {
@@ -22,16 +25,25 @@ namespace SimpleHttpServer.Domain
         }
         public void Start()
         {
-            var listener = new TcpListener(IPAddress.Any, this.port);
+            TcpListener listener = null;
+            try
+            {
+                listener = new TcpListener(IPAddress.Any, this.port);
+            }
+            catch(SocketException e)
+            {
+                this.logger.WriteError(e.Message + " (socket error code = " + e.SocketErrorCode.ToString() + ")");
+            }
             listener.Start();
 
             while (true)
             {
-                Console.WriteLine($"[TCP] listening ... (port {this.port})");
+                this.logger.WriteInformation($"TCP : listening ... (port {this.port})");
+
                 using (var client = listener.AcceptTcpClient())
                 using (var stream = client.GetStream())
                 {
-                    Console.WriteLine($"[TCP] Tcp connection established from {client.Client.RemoteEndPoint}.");
+                    this.logger.WriteInformation($"TCP : Tcp connection established from {client.Client.RemoteEndPoint}.");
 
                     string httpRequest = string.Empty;
 
@@ -40,7 +52,7 @@ namespace SimpleHttpServer.Domain
                         byte[] bufferRead = new Byte[4096];
                         int readSize = stream.Read(bufferRead, 0, bufferRead.Length);
 
-                        Console.WriteLine($"[TCP] Read {readSize} bytes from Tcp stream.");
+                        this.logger.WriteInformation($"TCP : Read {readSize} bytes from Tcp stream.");
 
                         if (readSize == 0)
                         {
@@ -57,36 +69,32 @@ namespace SimpleHttpServer.Domain
 
                     if (httpRequest.Length == 0)
                     {
-                        Console.WriteLine($"[TCP] Read Empty bytes from Tcp stream.");
+                        this.logger.WriteWarning("TCP : Read Empty bytes from Tcp stream.");
 
                         client.Close();
                         continue;
                     }
 
-                    Console.WriteLine("[HTTP] Http Request received.");
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.WriteLine(httpRequest);
-                    Console.ResetColor();
-                    Console.WriteLine();
+                    this.logger.WriteInformation("HTTP : Http Request received.");
+                    this.logger.WriteDebug(httpRequest);
 
-                    var request = new HttpRequest(httpRequest);
-                    var routeFullPath = new RouteFullPath(request.HttpRequestLine.RequestUri);
-                    var httpResponse = this.routingTable.GetHtpResponse(routeFullPath);
+                    var httpRequestDto = HttpRequestMessageDto.Parse(httpRequest);
+                    var request = new HttpRequest(httpRequestDto);
+                    var routeFullPath = new RouteFullPath(new RoutePath(request.HttpRequestLine.RequestedUri));
+                    var httpResponse = this.routingTable.Find(routeFullPath);
 
-                    Console.WriteLine("[HTTP] Http Response sent.");
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.WriteLine(httpResponse);
-                    Console.ResetColor();
-                    Console.WriteLine();
+                    this.logger.WriteInformation("HTTP : Http Response sent.");
+                    this.logger.WriteDebug(httpResponse.ToString());
 
                     var resopnseBytes = httpResponse.ToBytes();
                     stream.Write(resopnseBytes, 0, resopnseBytes.Length);
 
-                    Console.WriteLine($"[TCP] Write {resopnseBytes.Length} bytes to Tcp stream.");
+                    this.logger.WriteInformation($"TCP : Write {resopnseBytes.Length} bytes to Tcp stream.");
                 }
             }
         }
         private int port;
         private RoutingTable routingTable;
+        private LoggerBase logger;
     }
 }

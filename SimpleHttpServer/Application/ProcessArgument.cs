@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimpleHttpServer.Domain
+namespace SimpleHttpServer.Application
 {
     class ProcessArgument
     {
-        static internal (bool, string) TestValidation(string[] args)
+        static internal (bool ok, string message) Validate(string[] args)
         {
             if (args.Length != 2)
             {
