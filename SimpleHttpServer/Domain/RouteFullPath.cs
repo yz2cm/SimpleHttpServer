@@ -8,14 +8,27 @@ namespace SimpleHttpServer.Domain
 {
     class RouteFullPath
     {
-        public bool Equals(RouteFullPath fullPath)
+        public override int GetHashCode()
         {
-            if(this == fullPath)
+            unchecked
             {
-                return true;
+                return (this.ToString() != null ? this.GetHashCode() : 0) * 397;
             }
+        }
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
 
-            return this.ToString() == fullPath.ToString();
+            return this.Equals((RouteFullPath)obj);
+        }
+        public bool Equals(RouteFullPath other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+
+            return string.Equals(this.ToString(), other.ToString());
         }
         internal RouteFullPath(RoutePath path)
         {
