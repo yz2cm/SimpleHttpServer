@@ -51,6 +51,7 @@
     <Compile Include="Domain\HttpHeaderFieldEntryCollection.cs" />
     <Compile Include="Domain\HttpHeaderFieldEntry.cs" />
     <Compile Include="Domain\HttpResponse.cs" />
+    <Compile Include="Domain\RoutingEntryCollection.cs" />
     <Compile Include="Dto\HttpHeaderFieldEntryDto.cs" />
     <Compile Include="Dto\HttpRequestMessageDto.cs" />
     <Compile Include="Dto\HttpResponseFileDto.cs" />
@@ -64,7 +65,7 @@
     <Compile Include="Domain\RoutePrefix.cs" />
     <Compile Include="Domain\RoutingTable.cs" />
     <Compile Include="Domain\Usage.cs" />
-    <Compile Include="Domain\HttpServer.cs" />
+    <Compile Include="Application\HttpServer.cs" />
     <Compile Include="Domain\HttpMessageBody.cs" />
     <Compile Include="Dto\QueryKeyValuePairCollectionDto.cs" />
     <Compile Include="Dto\QueryKeyValuePairDto.cs" />

@@ -43,13 +43,15 @@ namespace SimpleHttpServer.Application
                 using (var client = listener.AcceptTcpClient())
                 using (var stream = client.GetStream())
                 {
-                    this.logger.WriteInformation($"TCP : Tcp connection established from {client.Client.RemoteEndPoint}.");
+                    this.logger.WriteInformation($"TCP : Tcp connection established. ({client.Client.RemoteEndPoint} ====> {client.Client.LocalEndPoint}");
 
                     string httpRequest = string.Empty;
 
                     while (client.Connected && stream.CanRead)
                     {
                         byte[] bufferRead = new Byte[4096];
+                        this.logger.WriteInformation($"TCP : Read from Tcp stream...");
+
                         int readSize = stream.Read(bufferRead, 0, bufferRead.Length);
 
                         this.logger.WriteInformation($"TCP : Read {readSize} bytes from Tcp stream.");
@@ -80,13 +82,19 @@ namespace SimpleHttpServer.Application
 
                     var httpRequestDto = HttpRequestMessageDto.Parse(httpRequest);
                     var request = new HttpRequest(httpRequestDto);
-                    var routeFullPath = new RouteFullPath(new RoutePath(request.HttpRequestLine.RequestedUri));
-                    var httpResponse = this.routingTable.Find(routeFullPath);
+                    var requestedPath = new RouteFullPath(new RoutePath(request.HttpRequestLine.RequestedUri));
+                    var response = this.routingTable.Find(requestedPath);
+
+                    this.logger.WriteInformation("Routing completed.");
+                    this.logger.WriteDebug($"[ Routing result ]");
+                    this.logger.WriteDebug($"  * Requested path : {requestedPath}");
+                    this.logger.WriteDebug($"  * Matched route  : {response.Path}");
+                    this.logger.WriteDebug($"  * Response file  : {response.ResponseFileName.NameOnly}");
 
                     this.logger.WriteInformation("HTTP : Http Response sent.");
-                    this.logger.WriteDebug(httpResponse.ToString());
+                    this.logger.WriteDebug(response.Response.ToString());
 
-                    var resopnseBytes = httpResponse.ToBytes();
+                    var resopnseBytes = response.Response.ToBytes();
                     stream.Write(resopnseBytes, 0, resopnseBytes.Length);
 
                     this.logger.WriteInformation($"TCP : Write {resopnseBytes.Length} bytes to Tcp stream.");

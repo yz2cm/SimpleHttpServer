@@ -11,7 +11,7 @@ namespace SimpleHttpServer.Dto
 {
     class RoutingFileDto
     {
-        internal RoutingFileDto(string routePrefix, IReadOnlyList<Route> routes)
+        internal RoutingFileDto(string routePrefix, IReadOnlyList<RouteDto> routes)
         {
             this.RoutePrefix = routePrefix;
             this.Routes = routes;
@@ -27,23 +27,23 @@ namespace SimpleHttpServer.Dto
             var routingMap = routing.Element("RoutingMap");
             var routePrefix = routingMap.Element("RoutePrefix").Value;
 
-            var routes = new List<Route>();
+            var routes = new List<RouteDto>();
 
             foreach (var entry in routingMap.Element("Routes").Elements("Route"))
             {
                 var path = entry.Attribute("Path").Value;
                 var httpResponseFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, entry.Value);
 
-                routes.Add(new Route(path, httpResponseFileName));
+                routes.Add(new RouteDto(path, httpResponseFileName));
             }
 
             return new RoutingFileDto(routePrefix, routes);
         }
         internal string RoutePrefix { get; }
-        internal IReadOnlyList<Route> Routes { get; private protected set; }
-        internal class Route
+        internal IReadOnlyList<RouteDto> Routes { get; private protected set; }
+        internal class RouteDto
         {
-            internal Route(string path, string httpResponseFileName)
+            internal RouteDto(string path, string httpResponseFileName)
             {
                 this.Path = path;
                 this.HttpResponseFileName = httpResponseFileName;

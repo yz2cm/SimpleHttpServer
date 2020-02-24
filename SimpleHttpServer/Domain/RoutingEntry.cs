@@ -8,12 +8,14 @@ namespace SimpleHttpServer.Domain
 {
     class RoutingEntry
     {
-        internal RoutingEntry(RouteFullPath path, HttpResponse response)
+        internal RoutingEntry(RouteFullPath path, HttpResponse response, FilePath responseFileName)
         {
             this.Path = path;
             this.Response = response;
+            this.ResponseFileName = responseFileName;
         }
         internal RouteFullPath Path { get; }
         internal HttpResponse Response { get; }
+        internal FilePath ResponseFileName { get; }
     }
 }

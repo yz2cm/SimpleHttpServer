@@ -55,7 +55,7 @@ namespace SimpleHttpServer.Domain
 
             return fullPath;
         }
-        internal static RouteFullPath Default() => new RouteFullPath(new RoutePath("*"));
+        internal static RouteFullPath Default(RoutePrefix prefix) => new RouteFullPath(prefix, new RoutePath("*"));
         private RoutePrefix prefix;
         private RoutePath path;
     }

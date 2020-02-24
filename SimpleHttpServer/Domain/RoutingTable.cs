@@ -13,26 +13,14 @@ namespace SimpleHttpServer.Domain
     {
         internal RoutingTable(RoutingFileDto routingFileDto)
         {
-            this.routingFileDto = routingFileDto;
+            this.routingEntryCollection = new RoutingEntryCollection(routingFileDto);
         }
-        internal HttpResponse Find(RouteFullPath fullPath)
+        internal RoutingEntry Find(RouteFullPath fullPath)
         {
-            var table = routingFileDto.Routes;
-            var prefix = new RoutePrefix(routingFileDto.RoutePrefix);
+            var matchedEntry = this.routingEntryCollection.Find(fullPath);
 
-            var result = table.FirstOrDefault(entry => new RouteFullPath(prefix, new RoutePath(entry.Path)).ToString() == fullPath.ToString());
-            if (result == null)
-            {
-                result = table.FirstOrDefault(entry => new RouteFullPath(new RoutePath(entry.Path)).Equals(RouteFullPath.Default()));
-                if (result == null)
-                {
-                    throw new KeyNotFoundException(fullPath.ToString());
-                }
-            }
-
-            var httpResponseFileDto =  HttpResponseFileDto.Load(result.HttpResponseFileName);
-            return new HttpResponse(httpResponseFileDto);
+            return matchedEntry;
         }
-        private RoutingFileDto routingFileDto;
+        private RoutingEntryCollection routingEntryCollection;
     }
 }
