@@ -15,11 +15,21 @@ namespace SimpleHttpServer.Domain
         {
             this.routingEntryCollection = new RoutingEntryCollection(routingFileDto);
         }
-        internal RoutingEntry Find(RouteFullPath fullPath)
+        internal RoutingEntry FindOrDefault(RouteFullPath fullPath)
         {
             var matchedEntry = this.routingEntryCollection.Find(fullPath);
+            if(matchedEntry != null)
+            {
+                return matchedEntry;
+            }
 
-            return matchedEntry;
+            var defaultEntry = this.routingEntryCollection.DefaultEntry;
+            if (defaultEntry != null)
+            {
+                return defaultEntry;
+            }
+
+            throw new KeyNotFoundException(fullPath.ToString());
         }
         private RoutingEntryCollection routingEntryCollection;
     }

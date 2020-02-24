@@ -14,6 +14,8 @@ namespace SimpleHttpServer.Application
             Warn,
             Error,
             Debug,
+            Notify,
+            Other,
         }
 
         protected abstract void WriteCore(LogLevel logLevel, string message);
@@ -32,6 +34,10 @@ namespace SimpleHttpServer.Application
         internal void WriteDebug(string message)
         {
             this.WriteCore(LogLevel.Debug, message);
+        }
+        internal void WriteNotification(string message)
+        {
+            this.WriteCore(LogLevel.Notify, message);
         }
     }
 }

@@ -43,7 +43,7 @@ namespace SimpleHttpServer.Application
                 using (var client = listener.AcceptTcpClient())
                 using (var stream = client.GetStream())
                 {
-                    this.logger.WriteInformation($"TCP : Tcp connection established. ({client.Client.RemoteEndPoint} ====> {client.Client.LocalEndPoint}");
+                    this.logger.WriteNotification($"TCP : Tcp connection established. ({client.Client.RemoteEndPoint} ====> {client.Client.LocalEndPoint}");
 
                     string httpRequest = string.Empty;
 
@@ -83,7 +83,7 @@ namespace SimpleHttpServer.Application
                     var httpRequestDto = HttpRequestMessageDto.Parse(httpRequest);
                     var request = new HttpRequest(httpRequestDto);
                     var requestedPath = new RouteFullPath(new RoutePath(request.HttpRequestLine.RequestedUri));
-                    var response = this.routingTable.Find(requestedPath);
+                    var response = this.routingTable.FindOrDefault(requestedPath);
 
                     this.logger.WriteInformation("Routing completed.");
                     this.logger.WriteDebug($"[ Routing result ]");
@@ -98,6 +98,7 @@ namespace SimpleHttpServer.Application
                     stream.Write(resopnseBytes, 0, resopnseBytes.Length);
 
                     this.logger.WriteInformation($"TCP : Write {resopnseBytes.Length} bytes to Tcp stream.");
+                    this.logger.WriteNotification($"HTTP : Session sucessfully completed.");
                 }
             }
         }

@@ -17,7 +17,7 @@ namespace SimpleHttpServer.Domain
             foreach(var entry in routingFileDto.Routes)
             {
                 var routePath = new RoutePath(entry.Path);
-                var routeFullPath = new RouteFullPath(prefix, routePath);
+                var routeFullPath = new RouteFullPath(this.prefix, routePath);
                 var httpResponseDto = HttpResponseFileDto.Load(entry.HttpResponseFileName);
                 var httpResponse = new HttpResponse(httpResponseDto);
 
@@ -27,19 +27,18 @@ namespace SimpleHttpServer.Domain
         }
         internal RoutingEntry Find(RouteFullPath routeFullPath)
         {
-            var matchedEntry = this.routingEntries.Where(x => x.Path.Equals(routeFullPath)).FirstOrDefault();
-            if(matchedEntry != null)
+            var matchedEntry = this.routingEntries.Where(entry => entry.Path.Equals(routeFullPath)).FirstOrDefault();
+            
+            return matchedEntry;
+        }
+        internal RoutingEntry DefaultEntry
+        {
+            get
             {
-                return matchedEntry;
-            }
+                var defaultEntry = this.routingEntries.Where(entry => entry.Path.Equals(RouteFullPath.Default(this.prefix))).FirstOrDefault();
 
-            var defaultEntry = this.routingEntries.Where(x => x.Path.Equals(RouteFullPath.Default(this.prefix))).FirstOrDefault();
-            if(defaultEntry != null)
-            {
                 return defaultEntry;
             }
-
-            throw new KeyNotFoundException(routeFullPath.ToString());
         }
         private IReadOnlyList<RoutingEntry> routingEntries;
         private RoutePrefix prefix;

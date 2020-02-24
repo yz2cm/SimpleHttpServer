@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SimpleHttpServer.Domain
 {
-    class RouteFullPath
+    class RouteFullPath : IEquatable<RouteFullPath>
     {
         public override int GetHashCode()
         {
@@ -21,7 +21,7 @@ namespace SimpleHttpServer.Domain
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
 
-            return this.Equals((RouteFullPath)obj);
+            return this.Equals(obj as RouteFullPath);
         }
         public bool Equals(RouteFullPath other)
         {
