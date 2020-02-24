@@ -3,22 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SimpleHttpServer.Dto;
 
 namespace SimpleHttpServer.Domain
 {
     class HttpRequestLine
     {
-        internal HttpRequestLine(HttpRequestMessageDto.HttpRequestLineDto requestLineDto)
+        internal HttpRequestLine(string httpMethod, string requestedUri, string httpVersion, QueryKeyValueCollection queryKeyValueCollection)
         {
-            this.HttpMethod = requestLineDto.HttpMethod;
-            this.RequestedUri = requestLineDto.RequestedPath.Path;
-            this.HttpVersion = requestLineDto.HttpVersion;
-            this.QueryKeyValuePairs = new QueryKeyValueCollection(requestLineDto.RequestedPath.QueryKeyValueCollection);
+            this.HttpMethod = httpMethod;
+            this.RequestedUri = requestedUri;
+            this.queryKeyValueCollection = queryKeyValueCollection;
         }
         internal string HttpMethod { get; }
         internal string RequestedUri { get; }
-        internal QueryKeyValueCollection QueryKeyValuePairs { get; }
+        private QueryKeyValueCollection queryKeyValueCollection;
         internal string HttpVersion { get; }
         public override string ToString()
         {
@@ -28,9 +26,9 @@ namespace SimpleHttpServer.Domain
         }
         internal class QueryKeyValueCollection
         {
-            internal QueryKeyValueCollection(QueryKeyValuePairCollectionDto kvCollection)
+            internal QueryKeyValueCollection(IReadOnlyList<QueryKeyValue> queryKeyValues)
             {
-                this.QueryKeyValues = kvCollection?.QueryKeyValuePairs.Select(x => new QueryKeyValue(x.Key, x.Value)).ToList();
+                this.QueryKeyValues = queryKeyValues;
             }
             internal IReadOnlyList<QueryKeyValue> QueryKeyValues { get; }
         }

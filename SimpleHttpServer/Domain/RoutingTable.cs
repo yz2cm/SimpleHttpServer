@@ -5,15 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.IO;
-using SimpleHttpServer.Dto;
 
 namespace SimpleHttpServer.Domain
 {
     class RoutingTable
     {
-        internal RoutingTable(RoutingFileDto routingFileDto)
+        internal RoutingTable(RoutingEntryCollection routingEntryCollection)
         {
-            this.routingEntryCollection = new RoutingEntryCollection(routingFileDto);
+            this.routingEntryCollection = routingEntryCollection;
         }
         internal RoutingEntry FindOrDefault(RouteFullPath fullPath)
         {

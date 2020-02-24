@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SimpleHttpServer.Dto;
 
 namespace SimpleHttpServer.Domain
 {
@@ -13,11 +12,6 @@ namespace SimpleHttpServer.Domain
         {
             this.FieldName = key;
             this.FieldValue = value;
-        }
-        internal HttpHeaderFieldEntry(HttpHeaderFieldEntryDto dto)
-        {
-            this.FieldName = dto.HederFieldName;
-            this.FieldValue = dto.HeaderFieldValue;
         }
         private const string ContentLengthFieldName = "Content-Length";
         internal static HttpHeaderFieldEntry BuildContentLength(int length)

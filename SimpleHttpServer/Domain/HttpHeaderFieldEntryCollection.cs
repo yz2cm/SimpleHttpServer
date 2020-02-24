@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SimpleHttpServer.Dto;
 
 namespace SimpleHttpServer.Domain
 {
     class HttpHeaderFieldEntryCollection
     {
-        internal HttpHeaderFieldEntryCollection(IReadOnlyList<HttpHeaderFieldEntryDto> headerFieldEntryDtos)
+        internal HttpHeaderFieldEntryCollection(List<HttpHeaderFieldEntry> headerFieldEntries)
         {
-            this.headerFieldEntries = headerFieldEntryDtos.Select(x => new HttpHeaderFieldEntry(x)).ToList();
+            this.headerFieldEntries = headerFieldEntries;
         }
         internal bool ContentLengthValueIsBlank()
         {

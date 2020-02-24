@@ -37,10 +37,11 @@ namespace SimpleHttpServer
                 return;
             }
 
-            var routingFile = RoutingFileDto.Load(context.RoutingFileName);
-            var routingTable = new RoutingTable(routingFile);
+            IRoutingTableFactory routingTableFactory = new RoutingTableFactory();
+            var routingTable = routingTableFactory.Create(context.RoutingFileName);
+            IHttpRequestFactory httpRequestFactory = new HttpRequestFactory();
 
-            var httpServer = new HttpServer(context.PortNo, routingTable, logger);
+            var httpServer = new HttpServer(context.PortNo, routingTable, logger, httpRequestFactory);
             httpServer.Start();
 
         }

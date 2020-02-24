@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SimpleHttpServer.Dto;
 
 namespace SimpleHttpServer.Domain
 {
     class HttpRequest
     {
-        internal HttpRequest(HttpRequestMessageDto httpRequestDto)
+        internal HttpRequest(HttpRequestLine httpRequestLine, HttpHeaderFieldEntryCollection httpHeaderCollection, HttpMessageBody httpMessageBody)
         {
-            this.HttpRequestLine = new HttpRequestLine(httpRequestDto.HttpRequestLine);
-            this.HttpHeader = new HttpHeaderFieldEntryCollection(httpRequestDto.HttpHeaderFields);
-            this.HttpMessageBody = new HttpMessageBody(httpRequestDto.HttpMessageBody);
+            this.HttpRequestLine = httpRequestLine;
+            this.HttpHeaderCollection = httpHeaderCollection;
+            this.HttpMessageBody = httpMessageBody;
         }
         internal HttpRequestLine HttpRequestLine { get; }
-        internal HttpHeaderFieldEntryCollection HttpHeader { get; }
+        internal HttpHeaderFieldEntryCollection HttpHeaderCollection { get; }
         internal HttpMessageBody HttpMessageBody { get; }
     }
 }

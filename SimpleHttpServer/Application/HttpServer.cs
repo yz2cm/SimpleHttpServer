@@ -13,11 +13,12 @@ namespace SimpleHttpServer.Application
 {
     class HttpServer
     {
-        internal HttpServer(int port, RoutingTable routingTable, LoggerBase logger)
+        internal HttpServer(int port, RoutingTable routingTable, LoggerBase logger, IHttpRequestFactory httpRequestFactory)
         {
             this.port = port;
             this.routingTable = routingTable;
             this.logger = logger;
+            this.httpRequestFactory = httpRequestFactory;
         }
         public void Shutdown()
         {
@@ -45,7 +46,7 @@ namespace SimpleHttpServer.Application
                 {
                     this.logger.WriteNotification($"TCP : Tcp connection established. ({client.Client.RemoteEndPoint} ====> {client.Client.LocalEndPoint}");
 
-                    string httpRequest = string.Empty;
+                    string httpRequestMessage = string.Empty;
 
                     while (client.Connected && stream.CanRead)
                     {
@@ -61,7 +62,7 @@ namespace SimpleHttpServer.Application
                             break;
                         }
 
-                        httpRequest += Encoding.UTF8.GetString(bufferRead, 0, readSize);
+                        httpRequestMessage += Encoding.UTF8.GetString(bufferRead, 0, readSize);
 
                         if (readSize < bufferRead.Length)
                         {
@@ -69,7 +70,7 @@ namespace SimpleHttpServer.Application
                         }
                     }
 
-                    if (httpRequest.Length == 0)
+                    if (httpRequestMessage.Length == 0)
                     {
                         this.logger.WriteWarning("TCP : Read Empty bytes from Tcp stream.");
 
@@ -78,16 +79,13 @@ namespace SimpleHttpServer.Application
                     }
 
                     this.logger.WriteInformation("HTTP : Http Request received.");
-                    this.logger.WriteDebug(httpRequest);
+                    this.logger.WriteDebug(httpRequestMessage);
 
-                    var httpRequestDto = HttpRequestMessageDto.Parse(httpRequest);
-                    var request = new HttpRequest(httpRequestDto);
-                    var requestedPath = new RouteFullPath(new RoutePath(request.HttpRequestLine.RequestedUri));
+                    var httpRequest = httpRequestFactory.Create(httpRequestMessage);
+                    var requestedPath = new RouteFullPath(new RoutePath(httpRequest.HttpRequestLine.RequestedUri));
                     var response = this.routingTable.FindOrDefault(requestedPath);
 
                     this.logger.WriteInformation("Routing completed.");
-                    this.logger.WriteDebug($"[ Routing result ]");
-                    this.logger.WriteDebug($"  * Requested path : {requestedPath}");
                     this.logger.WriteDebug($"  * Matched route  : {response.Path}");
                     this.logger.WriteDebug($"  * Response file  : {response.ResponseFileName.NameOnly}");
 
@@ -105,5 +103,6 @@ namespace SimpleHttpServer.Application
         private int port;
         private RoutingTable routingTable;
         private LoggerBase logger;
+        private IHttpRequestFactory httpRequestFactory;
     }
 }

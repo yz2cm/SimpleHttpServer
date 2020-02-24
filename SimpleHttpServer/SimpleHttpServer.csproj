@@ -50,8 +50,12 @@
     <Compile Include="Domain\HttpRequest.cs" />
     <Compile Include="Domain\HttpHeaderFieldEntryCollection.cs" />
     <Compile Include="Domain\HttpHeaderFieldEntry.cs" />
+    <Compile Include="Domain\HttpRequestFactory.cs" />
     <Compile Include="Domain\HttpResponse.cs" />
+    <Compile Include="Domain\IHttpRequestFactory.cs" />
+    <Compile Include="Domain\IRoutingTableFactory.cs" />
     <Compile Include="Domain\RoutingEntryCollection.cs" />
+    <Compile Include="Domain\RoutingTableFactory.cs" />
     <Compile Include="Dto\HttpHeaderFieldEntryDto.cs" />
     <Compile Include="Dto\HttpRequestMessageDto.cs" />
     <Compile Include="Dto\HttpResponseFileDto.cs" />
